@@ -1,0 +1,53 @@
+name: set-deployment-image
+description: |
+  Change the Docker image associated with one of the
+  containers in a Kubernetes Deployment
+inputs:
+  project:
+    description: Google Cloud project ID
+    required: true
+  location:
+    description: Google Cloud location
+    required: true
+  cluster:
+    description: Kubernetes Engine cluster name
+    required: true
+  namespace:
+    description: Kubernetes namespace
+    required: true
+    default: "default"
+  deployment:
+    description: Kubernetes deployment name
+    required: true
+  container:
+    description: Deployment container name
+    required: true
+  image:
+    description: Docker image name
+    required: true
+  key:
+    description: Service account JSON key
+    required: true
+runs:
+  using: docker
+  image: docker://actionsgcp/actions:latest
+  args:
+    - set-deployment-image
+    - --project
+    - ${{ inputs.project    }}
+    - --location
+    - ${{ inputs.location   }}
+    - --cluster
+    - ${{ inputs.cluster    }}
+    - --namespace
+    - ${{ inputs.namespace  }}
+    - --deployment
+    - ${{ inputs.deployment }}
+    - --container
+    - ${{ inputs.container  }}
+    - ${{ inputs.image      }}
+  env:
+    SERVICE_ACCOUNT_KEY: ${{ inputs.key }}
+branding:
+  color: blue
+  icon: box
